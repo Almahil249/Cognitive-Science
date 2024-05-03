@@ -1,5 +1,5 @@
-import CCS_Project.CCS_tetris as game
-import CCS_Project.Genetic_Algorithm as GG
+import CCS_tetris as game
+import Genetic_Algorithm as GG
 G = GG.GA()
 G.init_pop(10)
 i = 0

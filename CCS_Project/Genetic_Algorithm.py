@@ -1,6 +1,6 @@
 import random
 import numpy as np
-import CCS_Project.CCS_tetris as game
+import CCS_tetris as game
 class GA:
     popultion = []
     new_pop = []
@@ -60,6 +60,7 @@ class GA:
                         best_z = r
         piece['x'] = best_x
         piece['rotation'] = best_z
+        piece['y']  = 0
         
         return best_x,best_z,chromo,best_score
 

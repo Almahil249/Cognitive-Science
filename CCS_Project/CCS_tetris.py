@@ -1,7 +1,7 @@
 import random, time, pygame, sys
 from pygame.locals import *
 import numpy as np
-import CCS_Project.Genetic_Algorithm as GG
+import Genetic_Algorithm as GG
 ##############################################################################
 # SETTING UP GENERAL CONSTANTS
 ##############################################################################
