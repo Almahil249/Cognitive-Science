@@ -182,12 +182,8 @@ def main():
     BASICFONT   = pygame.font.Font('freesansbold.ttf', 18)
     BIGFONT     = pygame.font.Font('freesansbold.ttf', 100)
     pygame.display.set_caption('Tetris AI')
-
-    if (MANUAL_GAME):
-        run_game()
-    #else:
-     #   run_game(chromosome, speed, max_score = 20000, no_show = False)
-def run_game_ai(chromosome, speed, max_score = 20000, no_show = False):
+    
+def run_game_ai(chromosome, speed, max_score = 20000):
 
     FPS = int(speed)
     main()
@@ -198,9 +194,11 @@ def run_game_ai(chromosome, speed, max_score = 20000, no_show = False):
     level, fall_freq = calc_level_and_fall_freq(score)
     falling_piece    = get_new_piece()
     next_piece       = get_new_piece()
+    
     G = GG.GA()
+    
     # Calculate best move
-    G.calc_best_move(board, falling_piece,chromosome)
+    G.calc_best_move(board, falling_piece, chromosome)
 
     num_used_pieces = 0
     removed_lines   = [0,0,0,0] # Combos
@@ -211,6 +209,8 @@ def run_game_ai(chromosome, speed, max_score = 20000, no_show = False):
 
     # Game loop
     while alive:
+
+        # check_quit()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 print ("Game exited by user")
@@ -220,24 +220,20 @@ def run_game_ai(chromosome, speed, max_score = 20000, no_show = False):
             # No falling piece in play, so start a new piece at the top
             falling_piece = next_piece
             next_piece    = get_new_piece()
-
             # Decide the best move based on your weights
-            G.calc_best_move(board, falling_piece,chromosome, no_show)
+            G.calc_best_move(board, falling_piece, chromosome)
 
-            # Update number of used pieces and the score
             num_used_pieces +=1
             score           += 1
-
             # Reset last_fall_time
             last_fall_time = time.time()
 
             if (not is_valid_position(board, falling_piece)):
                 # GAME-OVER
                 # Can't fit a new piece on the board, so game over.
-                print('Game_over')
                 alive = False
 
-        if no_show or time.time() - last_fall_time > fall_freq:
+        if time.time() - last_fall_time > fall_freq:
             if (not is_valid_position(board, falling_piece, adj_Y=1)):
                 # Falling piece has landed, set it on the board
                 add_to_board(board, falling_piece)
@@ -261,39 +257,35 @@ def run_game_ai(chromosome, speed, max_score = 20000, no_show = False):
                     score += 1200
                     removed_lines[3] += 1
 
+                level, fall_freq = calc_level_and_fall_freq(score)
                 falling_piece = None
             else:
                 # Piece did not land, just move the piece down
                 falling_piece['y'] += 1
                 last_fall_time = time.time()
 
-        if (not no_show):
-            draw_game_on_screen(board, score, level, next_piece, falling_piece,
-                                chromosome)
+        DISPLAYSURF.fill(BGCOLOR)
+        draw_board(board)
+        draw_status(score, level)
+        draw_next_piece(next_piece)
+
+        if falling_piece != None:
+            draw_piece(falling_piece)
+
+        pygame.display.update()
+        FPSCLOCK.tick(FPS)
 
         # Stop condition
         if (score > max_score):
+            print(chromosome)
             alive = False
             win   = True
 
     # Save the game state
-    game_state = [num_used_pieces, removed_lines, score, win,chromosome]
+    game_state = [num_used_pieces, removed_lines, score, win, chromosome]
 
     return game_state
 
-def draw_game_on_screen(board, score, level, next_piece, falling_piece, chromosome):
-    """Draw game on the screen"""
-
-    DISPLAYSURF.fill(BGCOLOR)
-    draw_board(board)
-    draw_status(score, level)
-    draw_next_piece(next_piece)
-
-    if falling_piece != None:
-        draw_piece(falling_piece)
-
-    pygame.display.update()
-    FPSCLOCK.tick(FPS)
 def run_game():
     # Setup variables
     board              = get_blank_board()
@@ -305,7 +297,6 @@ def run_game():
     moving_right       = False
     score              = 0
     level, fall_freq   = calc_level_and_fall_freq(score)
-
     falling_piece      = get_new_piece()
     next_piece         = get_new_piece()
 
