@@ -9,7 +9,7 @@ import Genetic_Algorithm as GG
 # Board config
 FPS          = 25
 WINDOWWIDTH  = 650
-WINDOWHEIGHT = 690
+WINDOWHEIGHT = 650
 BOXSIZE      = 25
 BOARDWIDTH   = 10
 BOARDHEIGHT  = 25
@@ -471,6 +471,7 @@ def run_game():
 
 def max_min_height(board):
     '''
+    Input as numpy array
     Retrun tuple (max, min)
     '''
     max_h = 0
@@ -492,6 +493,7 @@ def max_min_height(board):
 # this function need to be checked again 
 def deepest_valley_height(board):
     '''
+    Input as numpy array
     return the height of the deepest valley from the bottom (not how deep from the top)
     '''
     min_valley_height = 99
