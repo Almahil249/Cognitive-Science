@@ -20,6 +20,5 @@ while(score<30000):
     print('----------------------------------------------------------------------------')
     i +=1
     G.selection()   
-    G.update_Wigths()
 print(score)
 print(best_wight)

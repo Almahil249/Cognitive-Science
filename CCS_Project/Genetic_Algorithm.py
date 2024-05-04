@@ -7,8 +7,12 @@ class GA:
     pop_size = 0
     def __init__(self):
         pass
-    def update_Wigths(self):
-        self.popultion = self.new_pop
+    def update_Wigths(self,new):
+        self.popultion = []
+        #print(f' new pop:{len(self.new_pop[0])}')
+        #new_gertion = []
+        #new_gertion = self.new_pop
+        self.popultion = new
     def init_pop(self,pop_size):
         self.pop_size = pop_size
         for i in range(pop_size):
@@ -44,8 +48,9 @@ class GA:
             for i2 in range(new_i+1,len(exe)):
                 genes.append(self.cross_over(exe[new_i], exe[i2]))
         genes = self.mutat(genes)
-        self.new_pop = list(exe) + list(genes)
-        self.replacement(self.new_pop)
+        test = list(exe) + list(genes)
+        self.replacement(test)
+        self.update_Wigths(test)
     def mutat(self,pop):
         new_pop = []
         for chromo in pop:
@@ -79,7 +84,7 @@ class GA:
                         move_score += chromo[i]*move_info[i+1]
                     #print(move_score,best_score)
                     #print('---------------------------------------')
-                    print(len(chromo))
+                    #print(len(chromo))
                     if(move_score>best_score):
                         best_score= move_score
                         best_x = x
@@ -94,4 +99,3 @@ class GA:
         piece['y'] = 0
         
         return best_x,best_z,chromo,best_score
-
