@@ -12,61 +12,75 @@ class GA:
     
     def update_Wigths(self,new):
         self.popultion = []
-        #print(f' new pop:{len(self.new_pop[0])}')
-        #new_gertion = []
-        #new_gertion = self.new_pop
+        self.new_pop = []
         self.popultion = new
     
     def init_pop(self, pop_size, num_gens=6):
         self.pop_size = pop_size
-        for i in range(pop_size):
+        for _ in range(pop_size):
+            # gen1 = np.random.uniform(-10, -0.99)    # max_height
+            # gen2 = np.random.uniform(0.99, 10)      # min_height
+            # gen3 = np.random.uniform(0.99, 10)      # num_removed_lines
+            # gen4 = np.random.uniform(-10, -0.99)    # total_holes
+            # gen5 = np.random.uniform(-10, -0.99)    # bumpiness
+            # chromo = [gen1, gen2, gen3, gen4, gen5]
             chromo = np.random.uniform(-1, 1, size=num_gens)
+            # chromo = [-0.27521385, -0.19055338, -0.54777522, -0.16039307, -0.38306999,  0.35059687]
             self.popultion.append(chromo)
     
     def print_pop(self):
         print(self.popultion)
     
     def replacement(self,new_pop):
-        for i in range(int(self.pop_size*0.4)):
-            new_pop.append(random.choice(self.popultion))
+        sorted_pop = sorted(self.new_pop , key = lambda x: x[1])
+        k = int(self.pop_size * 0.4)
+        for i in range(1, k):
+            new_pop.append(sorted_pop[-i][0])
+        return new_pop
     
     def fittens(self,chromo,score):
-        new_gen = [chromo,score]
+        new_gen = [chromo, score]
         self.new_pop.append(new_gen)
         return new_gen
     
     def selection(self):
         new_gen = []
         sorted_chromo_pop = sorted(self.new_pop , key = lambda x: x[1])
+        print(f'sorted pop {sorted_chromo_pop}')
         new_gen = sorted_chromo_pop[-3:]
+
         exe = []
         for gen in new_gen:
             exe.append(gen[0])
-        #print(exe)
+
         genes = []
         forlis = 0
+        
         if(len(exe)%2 != 0):
             forlis = (len(exe)//2)+1
         else:
             forlis = (len(exe)//2)
+        
         for i in range(int(self.pop_size*0.3)-3):
             lucky = random.choice(self.popultion[:-5])
             exe.append(lucky)
+        
         for new_i in range(forlis):
             for i2 in range(new_i+1,len(exe)):
                 genes.append(self.cross_over(exe[new_i], exe[i2]))
+        
         genes = self.mutat(genes)
-        test = list(exe) + list(genes)
-        self.replacement(test)
-        self.update_Wigths(test)
+        final_pop = list(exe) + list(genes)
+        final_pop = self.replacement(final_pop)
+        self.update_Wigths(final_pop)
     
     def mutat(self,pop):
         new_pop = []
         for chromo in pop:
             rand = np.random.rand(len(chromo))
-            indices = np.where(rand < 0.)[0]
+            indices = np.where(rand < 0.1)[0]
             for i in range(len(chromo)):
-                chromo[i] = chromo[i] * random.uniform(0.50, 1.1)
+                chromo[i] = chromo[i] * random.uniform(0.90, 1.1)
             # print(f'mutat:{len(chromo)}')
             new_pop.append(chromo)
         return new_pop
@@ -86,20 +100,32 @@ class GA:
         num_holes_bef, num_blocking_blocks_bef = game.calc_initial_move_info(board)
         
         for r in range(len(game.PIECES[piece['shape']])):
-            for x in range(-2,game.BOARDWIDTH-2):
+            for x in range(game.BOARDWIDTH):
                 
                 move_info = game.calc_move_info(board,piece,x,r,num_holes_bef,num_blocking_blocks_bef)
-                _, min_height = game.max_min_height(np.array(board))
-                move_info.append(min_height)
+                # move_info = [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
                 
+                # calc features
+                num_removed_lines = move_info[2]
+                new_holes = move_info[3]
+                new_blocking_blocks = move_info[4]
+                max_height, min_height = game.max_min_height(np.array(board))
                 dv_height = game.deepest_valley_height(np.array(board))
-                move_info.append(dv_height)
+                total_holes, _ = game.calc_initial_move_info(board)
+                bumpiness = game.calc_bumpiness(np.array(board))
 
+                features = [num_removed_lines, new_holes, new_blocking_blocks, max_height, min_height, dv_height, total_holes, bumpiness]
+                # features = move_info[1:]
+                
                 if(move_info[0]):
                     move_score = 0
-                    for i in range(1, len(move_info)):
-                        move_score += chromo[i-1]*move_info[i]
+                    k = min(len(chromo), len(features))
+                    for i in range(k):
+                        move_score += chromo[i] * features[i]
 
+                    print('------------------')
+                    print(f'move {move_score}')
+                    print(f'best {best_score}')
                     if(move_score > best_score):
                         best_score = move_score
                         best_x = x
@@ -114,4 +140,4 @@ class GA:
         piece['rotation'] = best_z
         piece['y'] = 0
         
-        return best_x, best_z, chromo,best_score
+        return best_x, best_z, chromo, best_score
