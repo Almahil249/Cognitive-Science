@@ -64,7 +64,7 @@ class GA:
             forlis = (len(exe)//2)
         
         for i in range(math.ceil((len(sorted_chromo_pop)*0.3)-3)):
-            lucky = random.choice(old_exe[:int(len(sorted_chromo_pop)*0.5)])
+            lucky = random.choice(old_exe[-int(len(sorted_chromo_pop)*0.5):])
             exe.append(lucky)
         print(f'exe :{len(exe)}')
         for new_i in range(forlis):
@@ -80,7 +80,7 @@ class GA:
         if(len(final_pop) < len(sorted_chromo_pop)):
             num_of_new = len(sorted_chromo_pop) - len(final_pop)
             for i in range(num_of_new):
-                final_pop.append(random.choice(self.popultion))
+                final_pop.append(random.choice(old_exe[-int(len(sorted_chromo_pop)*0.5):]))
         print(f'wigths after adding :{len(final_pop)}')
         self.update_Wigths(final_pop)
     

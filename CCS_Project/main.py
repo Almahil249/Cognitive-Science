@@ -26,6 +26,7 @@ with open(output_file, 'w') as f:
         G.selection()
 
         f.write(f'=== Gen {i} Best Solution ===\n')
+        f.write(f'avg gen Score: {avg_score}')
         f.write(f'Score: {score}\n')
         f.write(f'Best Weight: {best_weight}\n')
         f.write('----------------------------------------------------------------------------\n')
