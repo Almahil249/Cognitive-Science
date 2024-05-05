@@ -183,6 +183,8 @@ def main():
     BIGFONT     = pygame.font.Font('freesansbold.ttf', 100)
     pygame.display.set_caption('Tetris AI')
     
+    # run_game()
+
 def run_game_ai(chromosome, speed, max_score = 20000):
 
     FPS = int(speed)
@@ -191,6 +193,7 @@ def run_game_ai(chromosome, speed, max_score = 20000):
     board            = get_blank_board()
     last_fall_time   = time.time()
     score            = 0
+    ai_score         = 0
     level, fall_freq = calc_level_and_fall_freq(score)
     falling_piece    = get_new_piece()
     next_piece       = get_new_piece()
@@ -198,7 +201,8 @@ def run_game_ai(chromosome, speed, max_score = 20000):
     G = GG.GA()
     
     # Calculate best move
-    G.calc_best_move(board, falling_piece, chromosome)
+    _, _, _, best_score = G.calc_best_move(board, falling_piece, chromosome)
+    ai_score += best_score
 
     num_used_pieces = 0
     removed_lines   = [0,0,0,0] # Combos
@@ -220,8 +224,11 @@ def run_game_ai(chromosome, speed, max_score = 20000):
             # No falling piece in play, so start a new piece at the top
             falling_piece = next_piece
             next_piece    = get_new_piece()
+
             # Decide the best move based on your weights
-            G.calc_best_move(board, falling_piece, chromosome)
+            _, _, _, best_score =  G.calc_best_move(board, falling_piece, chromosome)
+            ai_score += best_score
+            # print(G.fittness(best_score))
 
             num_used_pieces +=1
             score           += 1
@@ -282,7 +289,7 @@ def run_game_ai(chromosome, speed, max_score = 20000):
             win   = True
 
     # Save the game state
-    game_state = [num_used_pieces, removed_lines, score, win, chromosome]
+    game_state = [num_used_pieces, removed_lines, score, win, chromosome, ai_score]
 
     return game_state
 
@@ -427,6 +434,7 @@ def run_game():
                     score += 300
                 elif (num_removed_lines == 4):
                     score += 1200
+                print(f'num_removed_lines: {num_removed_lines}')
 
                 level, fall_freq = calc_level_and_fall_freq(score)
                 falling_piece    = None
@@ -440,13 +448,19 @@ def run_game():
 # FUNCTIONS TESTING
 # ===================================================================================
 
-        if score > 9:
-            np_board = np.array(board) # shape = (10, 25)
-            for i in range(25):
-                print(np_board[:, i])
-            print('Max Min Height = ',max_min_height(np_board))
-            print('Deepest = ', deepest_valley_height(np_board))
-            pygame.quit()
+        np_board = np.array(board) # shape = (10, 25)
+        max_height, min_height = max_min_height(np_board)
+        dv_height = deepest_valley_height(np_board)
+        total_holes, _ = calc_initial_move_info(board)
+
+    ###################### FEATURES ################################
+        print('-------------------------------------')
+        print(f'total_holes: {total_holes}')
+        print(f'max_height: {max_height}')
+        print(f'min_height: {min_height}')
+        print(f'dv_height: {dv_height}')
+        print(f'bumpiness {calc_bumpiness(np_board)}')
+    ################################################################                
 
 # ===================================================================================
         
@@ -488,6 +502,17 @@ def max_min_height(board):
             min_h = height
     
     return max_h, min_h
+
+def calc_bumpiness(board):
+    height_list = []
+    for col in range(board.shape[0]):  # Iterate over columns
+        height = 0
+        for row in range(board.shape[1] - 1, -1, -1):  # Iterate from bottom to top [24 -> 0]
+            if board[col][row] != '.':
+                height = 25 - row
+        height_list.append(height)
+
+    return np.var([height_list])
 
 
 # this function need to be checked again 
@@ -803,7 +828,7 @@ def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef
 
     # Check if it's a valid position
     if (not is_valid_position(board, piece)):
-        return [False]
+        return [False, 0, 0, 0, 0]
 
     # Goes down the piece while it's a valid position
     while is_valid_position(board, piece, adj_X=0, adj_Y=1):
@@ -926,3 +951,5 @@ def calc_sides_in_contact(board, piece):
     return  piece_sides, floor_sides, wall_sides
 
 
+# if __name__ == '__main__':
+#     main()
