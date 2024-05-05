@@ -108,13 +108,15 @@ class GA:
         best_z = 0
         best_score = -999
         num_holes_bef, num_blocking_blocks_bef = game.calc_initial_move_info(board)
-        
+        pumb = game.calc_bumpiness(np.array(board))
+        #print(f'pumb_before: {pumb_before}')
         for r in range(len(game.PIECES[piece['shape']])):
             for x in range(-2,game.BOARDWIDTH-2):
                 
                 move_info = game.calc_move_info(board,piece,x,r,num_holes_bef,num_blocking_blocks_bef)
                 # move_info = [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
-                
+                #pumb_after = game.calc_bumpiness(np.array(board))
+                #print(f'pumb_after: {pumb_after}')
                 # calc features
                 #num_removed_lines = move_info[2]
                 #new_holes = move_info[3]
@@ -134,6 +136,7 @@ class GA:
                     move_score += chromo[1] * move_info[2]
                     move_score += chromo[2] * -move_info[3]
                     move_score += chromo[3] * -move_info[4]
+                    move_score += chromo[4] * -pumb
 
                    # print('------------------')
                     #print(f'move {move_score}')

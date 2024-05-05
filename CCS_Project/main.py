@@ -2,7 +2,7 @@ import CCS_tetris as game
 import Genetic_Algorithm as GG
 
 G = GG.GA()
-G.init_pop(pop_size=100, num_gens=4)
+G.init_pop(pop_size=100, num_gens=5)
 currunt_score = 0
 # score = 0
 # best_weight = []
