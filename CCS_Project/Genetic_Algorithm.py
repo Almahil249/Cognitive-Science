@@ -46,7 +46,7 @@ class GA:
     def selection(self):
         new_gen = []
         sorted_chromo_pop = sorted(self.new_pop , key = lambda x: x[1])
-        print(f'sorted pop {sorted_chromo_pop}')
+        # print(f'sorted pop {sorted_chromo_pop}')
         new_gen = sorted_chromo_pop[-3:]
 
         exe = []
@@ -98,34 +98,26 @@ class GA:
         best_z = 0
         best_score = -999
         num_holes_bef, num_blocking_blocks_bef = game.calc_initial_move_info(board)
-        
+        #print(len(game.PIECES[piece['shape']]))
+
         for r in range(len(game.PIECES[piece['shape']])):
-            for x in range(game.BOARDWIDTH):
-                
+            for x in range(-2,game.BOARDWIDTH-2):
+
                 move_info = game.calc_move_info(board,piece,x,r,num_holes_bef,num_blocking_blocks_bef)
-                # move_info = [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
-                
-                # calc features
-                num_removed_lines = move_info[2]
-                new_holes = move_info[3]
-                new_blocking_blocks = move_info[4]
-                max_height, min_height = game.max_min_height(np.array(board))
+                #print(move_info)
+                _, min_height = game.max_min_height(np.array(board))
+                move_info.append(min_height)
+
                 dv_height = game.deepest_valley_height(np.array(board))
-                total_holes, _ = game.calc_initial_move_info(board)
-                bumpiness = game.calc_bumpiness(np.array(board))
+                move_info.append(dv_height)
 
-                features = [num_removed_lines, new_holes, new_blocking_blocks, max_height, min_height, dv_height, total_holes, bumpiness]
-                # features = move_info[1:]
-                
                 if(move_info[0]):
-                    move_score = 0
-                    k = min(len(chromo), len(features))
-                    for i in range(k):
-                        move_score += chromo[i] * features[i]
+                    d = 0
+                    move_score += chromo[0] * -move_info[0]
+                    move_score += chromo[1] * move_info[1]
+                    move_score += chromo[2] * -move_info[2]
+                    move_score += chromo[3] * -move_info[3]
 
-                    print('------------------')
-                    print(f'move {move_score}')
-                    print(f'best {best_score}')
                     if(move_score > best_score):
                         best_score = move_score
                         best_x = x
@@ -139,5 +131,6 @@ class GA:
         piece['x'] = best_x
         piece['rotation'] = best_z
         piece['y'] = 0
-        
-        return best_x, best_z, chromo, best_score
+
+        return best_x,best_z,chromo,best_score
+        return best_x, best_z, chromo,best_score
