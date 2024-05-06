@@ -68,7 +68,7 @@ class GA:
             forlis = (len(exe)//2)
         
         for i in range(math.ceil((len(sorted_chromo_pop)*0.3)-3)):
-            lucky = random.choice(old_exe[-int(len(sorted_chromo_pop)*0.5):])
+            lucky = random.choice(old_exe)
             exe.append(lucky)
         print(f'exe :{len(exe)}')
         for new_i in range(forlis):
@@ -112,45 +112,44 @@ class GA:
         best_y = 0
         best_z = 0
         best_score = -999
+        best_bumpiness = 999
+        best_holes_num = 999
         num_holes_bef, num_blocking_blocks_bef = game.calc_initial_move_info(board)
-        pumb = game.calc_bumpiness(np.array(board))
-        #print(f'pumb_before: {pumb_before}')
+        # pumb = game.calc_bumpiness(np.array(board))
+        # print(f'pumb_before: {pumb_before}')
+        # print('-----------------------')
         for r in range(len(game.PIECES[piece['shape']])):
             for x in range(-2,game.BOARDWIDTH-2):
                 
-                move_info = game.calc_move_info(board,piece,x,r,num_holes_bef,num_blocking_blocks_bef)
                 # move_info = [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
-                #pumb_after = game.calc_bumpiness(np.array(board))
-                #print(f'pumb_after: {pumb_after}')
-                # calc features
-                #num_removed_lines = move_info[2]
-                #new_holes = move_info[3]
-                #new_blocking_blocks = move_info[4]
-                #max_height, min_height = game.max_min_height(np.array(board))
-                #dv_height = game.deepest_valley_height(np.array(board))
-                #total_holes, _ = game.calc_initial_move_info(board)
-                #bumpiness = game.calc_bumpiness(np.array(board))
+                move_info = game.calc_move_info(board,piece,x,r,num_holes_bef,num_blocking_blocks_bef)
+                bumpiness = game.calc_move_bumpiness(board, piece, x, r)
 
-                #features = [num_removed_lines, new_holes, new_blocking_blocks, max_height, min_height, dv_height, total_holes, bumpiness]
-                # features = move_info[1:]
+                max_height = move_info[1]
+                num_removed_lines = move_info[2]
+                new_holes = move_info[3]
+                new_blocking_blocks = move_info[4]
                 
                 if(move_info[0]):
                     move_score = 0
-                    #k = min(len(chromo), len(features))
-                    move_score += chromo[0] * -move_info[1]
-                    move_score += chromo[1] * move_info[2]
-                    move_score += chromo[2] * -move_info[3]
-                    move_score += chromo[3] * -move_info[4]
-                    move_score += chromo[4] * -pumb
+                    move_score -= abs(chromo[0] * max_height)
+                    move_score += (chromo[1] * num_removed_lines)**2 # todo: 10 *
+                    move_score -= abs(chromo[2] * new_holes)
+                    move_score -= chromo[3] * new_blocking_blocks
+                    move_score += (chromo[4] * - bumpiness)**3
 
                    # print('------------------')
                     #print(f'move {move_score}')
                     #print(f'best {best_score}')
                     if(move_score > best_score):
+                        best_bumpiness = bumpiness
+                        best_holes_num = new_holes
                         best_score = move_score
                         best_x = x
                         best_z = r
                         best_y = piece['y']
+        # print(f'Best Bump = {best_bumpiness}')
+        # print(f'Best Num Holes = {best_holes_num}')
         if (show_game):
             piece['y'] = best_y
         else:
