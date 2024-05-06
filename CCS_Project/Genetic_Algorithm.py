@@ -8,17 +8,10 @@ class GA:
     new_pop = []
     pop_size = 0
     
-    def __init__(self):
-        pass
-    
-    def update_Wigths(self,new):
-        self.popultion = []
-        self.new_pop = []
-        self.popultion = new
-    
-    def init_pop(self, pop_size, num_gens=6):
+    def __init__(self, pop_size=100, num_gens=5):
         self.pop_size = pop_size
-        for _ in range(pop_size):
+        self.popultion = []
+        for i in range(pop_size):
             # gen1 = np.random.uniform(-10, -0.99)    # max_height
             # gen2 = np.random.uniform(0.99, 10)      # min_height
             # gen3 = np.random.uniform(0.99, 10)      # num_removed_lines
@@ -26,8 +19,19 @@ class GA:
             # gen5 = np.random.uniform(-10, -0.99)    # bumpiness
             # chromo = [gen1, gen2, gen3, gen4, gen5]
             chromo = np.random.uniform(-1, 1, size=num_gens)
+            # Ensure randomness
+            #print('lol')
             # chromo = [-0.27521385, -0.19055338, -0.54777522, -0.16039307, -0.38306999,  0.35059687]
             self.popultion.append(chromo)
+    
+    def update_Wigths(self,new):
+        self.popultion = []
+        self.new_pop = []
+        self.popultion = new
+    
+    #def init_pop():
+       
+        
     
     def print_pop(self):
         print(self.popultion)
@@ -88,8 +92,9 @@ class GA:
         new_pop = []
         for chromo in pop:
             rand = np.random.rand(len(chromo))
+            #print(rand)
             indices = np.where(rand < 0.1)[0]
-            for i in range(len(chromo)):
+            for i in indices:
                 chromo[i] = chromo[i] * random.uniform(0.90, 1.1)
             # print(f'mutat:{len(chromo)}')
             new_pop.append(chromo)

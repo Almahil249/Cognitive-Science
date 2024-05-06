@@ -2,6 +2,7 @@ import random, time, pygame, sys
 from pygame.locals import *
 import numpy as np
 import Genetic_Algorithm as GG
+
 ##############################################################################
 # SETTING UP GENERAL CONSTANTS
 ##############################################################################
@@ -42,7 +43,7 @@ YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
 
 BORDERCOLOR     = BLUE
-BGCOLOR         = BLACK
+BGCOLOR         = (135, 206, 235)
 TEXTCOLOR       = WHITE
 TEXTSHADOWCOLOR = GRAY
 COLORS          = (     BLUE,      GREEN,      RED,      YELLOW)
@@ -182,14 +183,18 @@ def main():
     BASICFONT   = pygame.font.Font('freesansbold.ttf', 18)
     BIGFONT     = pygame.font.Font('freesansbold.ttf', 100)
     pygame.display.set_caption('Tetris AI')
-    
+    #background_color = (135, 206, 235)
     # run_game()
+    #if(MANUAL_GAME):
+     #   run_game()
+    #else:
+     #   run_game_ai()
 
 def run_game_ai(chromosome, speed, max_score = 20000):
 
     FPS = int(speed)
     main()
-
+    random.seed(0) 
     board            = get_blank_board()
     last_fall_time   = time.time()
     score            = 0
@@ -306,9 +311,10 @@ def run_game():
     level, fall_freq   = calc_level_and_fall_freq(score)
     falling_piece      = get_new_piece()
     next_piece         = get_new_piece()
-
+    
     while True:
         # Game Loop
+        
         if (falling_piece == None):
             # No falling piece in play, so start a new piece at the top
             falling_piece = next_piece
@@ -454,12 +460,12 @@ def run_game():
         total_holes, _ = calc_initial_move_info(board)
 
     ###################### FEATURES ################################
-        print('-------------------------------------')
-        print(f'total_holes: {total_holes}')
-        print(f'max_height: {max_height}')
-        print(f'min_height: {min_height}')
-        print(f'dv_height: {dv_height}')
-        print(f'bumpiness {calc_bumpiness(np_board)}')
+        #print('-------------------------------------')
+        #print(f'total_holes: {total_holes}')
+        #print(f'max_height: {max_height}')
+        #print(f'min_height: {min_height}')
+        #print(f'dv_height: {dv_height}')
+        #print(f'bumpiness {calc_bumpiness(np_board)}')
     ################################################################                
 
 # ===================================================================================
@@ -626,7 +632,7 @@ def calc_level_and_fall_freq(score):
 
 def get_new_piece():
     """Return a random new piece in a random rotation and color"""
-
+    #random.seed(0)
     shape     = random.choice(list(PIECES.keys()))
     new_piece = {'shape': shape,
                 'rotation': random.randint(0, len(PIECES[shape]) - 1),
@@ -951,5 +957,7 @@ def calc_sides_in_contact(board, piece):
     return  piece_sides, floor_sides, wall_sides
 
 
+        
+        
 # if __name__ == '__main__':
-#     main()
+#main()

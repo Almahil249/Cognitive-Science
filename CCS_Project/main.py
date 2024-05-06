@@ -1,8 +1,9 @@
 import CCS_tetris as game
 import Genetic_Algorithm as GG
-
+import random
+random.seed() 
 G = GG.GA()
-G.init_pop(pop_size=100, num_gens=5)
+#G.init_pop(pop_size=10, num_gens=5)
 currunt_score = 0
 # score = 0
 # best_weight = []
@@ -16,13 +17,14 @@ with open(output_file, 'w') as f:
         currunt_score = 0
         best_weight = []
         for chromo in G.popultion:
-            game_score = game.run_game_ai(chromo, 700, 100000)
+            game_score = game.run_game_ai(chromo, 600, 100000)
             G.fittens(chromo, game_score[2])
             currunt_score+=game_score[2]
             if(score < game_score[2]):
                 score = game_score[2]
                 best_weight = chromo
         avg_score = currunt_score//len(G.popultion)
+        #G.print_pop()
         G.selection()
 
         f.write(f'=== Gen {i} Best Solution ===\n')
