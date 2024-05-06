@@ -1,0 +1,407 @@
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 1 Best Solution ===
+avg gen Score: 1724
+Score: 4620
+Best Weight: [ 0.1049317  -0.02839486  0.20580749  0.2219394   0.08279718]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 2 Best Solution ===
+avg gen Score: 3028
+Score: 4620
+Best Weight: [ 0.1049317  -0.02839486  0.20580749  0.2219394   0.08279718]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 3 Best Solution ===
+avg gen Score: 4099
+Score: 8772
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06829387  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 4 Best Solution ===
+avg gen Score: 5872
+Score: 8772
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06829387  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 5 Best Solution ===
+avg gen Score: 7472
+Score: 8772
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06829387  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 6 Best Solution ===
+avg gen Score: 8282
+Score: 8772
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06829387  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 7 Best Solution ===
+avg gen Score: 8772
+Score: 8772
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06829387  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 8 Best Solution ===
+avg gen Score: 8485
+Score: 10591
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06289618  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 9 Best Solution ===
+avg gen Score: 8699
+Score: 10591
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06289618  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 10 Best Solution ===
+avg gen Score: 10004
+Score: 10591
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.06289618  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 11 Best Solution ===
+avg gen Score: 9882
+Score: 10591
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.06289618  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 12 Best Solution ===
+avg gen Score: 9829
+Score: 10591
+Best Weight: [ 0.1049317  -0.02839486  0.3728043  -0.06289618  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 13 Best Solution ===
+avg gen Score: 9944
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 14 Best Solution ===
+avg gen Score: 10160
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 15 Best Solution ===
+avg gen Score: 10595
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 16 Best Solution ===
+avg gen Score: 11143
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 17 Best Solution ===
+avg gen Score: 11179
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 18 Best Solution ===
+avg gen Score: 10812
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 19 Best Solution ===
+avg gen Score: 10812
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 20 Best Solution ===
+avg gen Score: 10979
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 21 Best Solution ===
+avg gen Score: 10269
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 22 Best Solution ===
+avg gen Score: 11081
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 23 Best Solution ===
+avg gen Score: 11212
+Score: 11522
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.57959694]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 24 Best Solution ===
+avg gen Score: 10588
+Score: 19997
+Best Weight: [ 0.1049317  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 25 Best Solution ===
+avg gen Score: 13596
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 26 Best Solution ===
+avg gen Score: 18016
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 27 Best Solution ===
+avg gen Score: 19223
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 28 Best Solution ===
+avg gen Score: 19309
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 29 Best Solution ===
+avg gen Score: 19432
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 30 Best Solution ===
+avg gen Score: 19516
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 31 Best Solution ===
+avg gen Score: 19319
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05528882  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 32 Best Solution ===
+avg gen Score: 17067
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 33 Best Solution ===
+avg gen Score: 19603
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 34 Best Solution ===
+avg gen Score: 18696
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 35 Best Solution ===
+avg gen Score: 20443
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 36 Best Solution ===
+avg gen Score: 17942
+Score: 21165
+Best Weight: [ 0.1030723  -0.02794117  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
+sorted pop 20
+exe :6
+genes len after the cross over 9
+wigths before update :15
+wigths after update :16
+wigths after adding :20
+=== Gen 37 Best Solution ===
+avg gen Score: 18824
+Score: 21165
+Best Weight: [ 0.1030723  -0.03062896  0.3728043  -0.05712477  0.63709886]
+----------------------------------------------------------------------------
