@@ -539,7 +539,8 @@ def calc_move_bumpiness(board, piece, x, r):
     bumpiness = board_bumpiness(np.array(board))
     new_bumpiness = board_bumpiness(np.array(new_board))
     
-    return new_bumpiness - bumpiness 
+    # the lower diff means good choice
+    return new_bumpiness - bumpiness
 
 def board_bumpiness(board):
     height_list = []
