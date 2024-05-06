@@ -43,7 +43,7 @@ YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
 
 BORDERCOLOR     = BLUE
-BGCOLOR         = (135, 206, 235)
+BGCOLOR         = (0, 0, 0)
 TEXTCOLOR       = WHITE
 TEXTSHADOWCOLOR = GRAY
 COLORS          = (     BLUE,      GREEN,      RED,      YELLOW)
@@ -509,7 +509,38 @@ def max_min_height(board):
     
     return max_h, min_h
 
-def calc_bumpiness(board):
+def calc_move_bumpiness(board, piece, x, r):
+    ''' return the difference between the bumpiness
+        after - before
+    '''
+
+    piece['rotation'] = r
+    piece['y']        = 0
+    piece['x']        = x
+
+    # Check if it's a valid position
+    if (not is_valid_position(board, piece)):
+        return 9999
+
+    # Goes down the piece while it's a valid position
+    while is_valid_position(board, piece, adj_X=0, adj_Y=1):
+        piece['y']+=1
+
+    # Create a hypothetical board
+    new_board = get_blank_board()
+    for x2 in range(BOARDWIDTH):
+        for y in range(BOARDHEIGHT):
+            new_board[x2][y] = board[x2][y]
+
+    # Add the piece to the new_board
+    add_to_board(new_board, piece)
+
+    bumpiness = board_bumpiness(np.array(board))
+    new_bumpiness = board_bumpiness(np.array(new_board))
+    
+    return new_bumpiness - bumpiness 
+
+def board_bumpiness(board):
     height_list = []
     for col in range(board.shape[0]):  # Iterate over columns
         height = 0
