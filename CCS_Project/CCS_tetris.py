@@ -511,7 +511,7 @@ def max_min_height(board):
 
 def calc_move_bumpiness(board, piece, x, r):
     ''' return the difference between the bumpiness
-        after - before
+        after - before the move
     '''
 
     piece['rotation'] = r
@@ -520,6 +520,7 @@ def calc_move_bumpiness(board, piece, x, r):
 
     # Check if it's a valid position
     if (not is_valid_position(board, piece)):
+        # to lower the score down if the move is not valid
         return 9999
 
     # Goes down the piece while it's a valid position
