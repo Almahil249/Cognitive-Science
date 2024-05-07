@@ -39,11 +39,8 @@ with open(output_file, 'w') as f:
                 best_weight = chromo
         avg_score = currunt_score//len(G.popultion)
         #G.print_pop()
-        for i2 in range(POP_SIZE):
-            cromo,index = G.roluate_selection(next_gen)
-            selected_chromo_index.append(index)
-            selected_chromo.append(cromo)
-        print(f'chromo selcted len{len(selected_chromo)}')
+        selected_chromo,selected_chromo_index = G.roluate_selection(next_gen)
+        print(f'chromo selcted len{selected_chromo}')
         G.selection(selected_chromo)
         f.write(f'=== Gen {i} Best Solution ===\n')
         f.write(f'avg gen Score: {avg_score}')

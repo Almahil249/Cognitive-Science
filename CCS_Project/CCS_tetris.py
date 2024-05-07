@@ -859,6 +859,7 @@ def draw_next_piece(piece):
 
 def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef):
     """Calculate informations based on the current play"""
+    _,blocks = calc_initial_move_info(board)
 
     piece['rotation'] = r
     piece['y']        = 0
@@ -900,7 +901,7 @@ def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef
     new_holes           = total_holes - total_holes_bef
     new_blocking_blocks = total_blocking_block - total_blocking_bloks_bef
 
-    return [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
+    return [True, max_height, num_removed_lines, new_holes, new_blocking_blocks,piece_sides, floor_sides, wall_sides,blocks]
 
 def calc_initial_move_info(board):
     total_holes          = 0

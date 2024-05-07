@@ -8,7 +8,7 @@ class GA:
     new_pop = []
     pop_size = 0
     
-    def __init__(self, pop_size=10, num_gens=5):
+    def __init__(self, pop_size=10, num_gens=7):
         self.pop_size = pop_size
         self.popultion = []
         pop = []
@@ -53,13 +53,27 @@ class GA:
         new_gen = [chromo, score]
         return new_gen
     def roluate_selection(self,pop):
-        total_fitness = sum(chrom[1] for chrom in pop)
-        selection_point = random.uniform(0, total_fitness)
-        current_sum = 0
-        for i in range(int(len(pop))):
-            current_sum += pop[i][1]
-            if current_sum >= selection_point:
-                return pop[i],i
+         selected_chromo = []
+         selected_chromo_index = []
+         print(self.pop_size)
+         while(len(selected_chromo) != 10):
+            total_fitness = sum(chrom[1] for chrom in pop)
+            selection_point = random.uniform(0, total_fitness)
+            current_sum = 0
+            for i in range(int(len(pop))):
+                current_sum += pop[i][1]
+                #p = list(pop[i][0])
+                #s =list(selected_chromo)
+                is_exact_match = any(np.array_equal(pop[i][0], item) for item in selected_chromo)
+                #print(f'is_exact_match {is_exact_match}')
+                if current_sum >= selection_point and is_exact_match == False:
+                    selected_chromo_index.append(i)
+                    selected_chromo.append(pop[i][0])
+                    break
+         #print(f'selcted_chromo {selected_chromo}')
+         return selected_chromo,selected_chromo_index
+            
+       
 
     def op(self,chromoes):
         offspring = []
@@ -68,15 +82,10 @@ class GA:
         print(f'off spring :{len(offspring)}')
         return offspring
     def selection(self,pop):
-        new_gen = []
-        sorted_chromo_pop = sorted(pop , key = lambda x: x[1])
-        print(f'sorted pop {len(sorted_chromo_pop)}')
-        new_gen = sorted_chromo_pop
        
-        old_exe = []
+        old_exe = pop
         #exe = []
-        for gen in new_gen:
-            old_exe.append(gen[0])
+        
         #exe = old_exe[-3:]
        # for i in range(math.ceil((len(sorted_chromo_pop)*0.3)-3)):
         #    lucky = random.choice(old_exe)
@@ -109,7 +118,7 @@ class GA:
         return new_pop
     def cross_over_selecte(self,pop):
         rand = np.random.rand(len(pop))
-        indices = np.where(rand < 0.5)[0]
+        indices = np.where(rand < 0.7)[0]
         cross_selected = []
         for i in indices:
             cross_selected.append(pop[i])
@@ -128,13 +137,11 @@ class GA:
         return genes
 
     def cross_over(self,corm1,corm2):
-        cut_point = random.uniform(0,1)
-        
-        #corm1 = list(corm1)
-        #corm2 = list(corm2)
-        combined = list(corm1[:int(0.5 * len(corm1))]) + list(corm2[int(0.5 * len(corm2)):])
+        list1_length = len(corm1)
+        cut_point = random.randint(1, list1_length - 1)
+        combined = corm1[:cut_point] + corm2[cut_point:]
         combined = np.array(combined)
-        #print(f'crom1 {combined}')
+        print(f'crom1 {combined}')
         return combined
     def calc_best_move(self, board, piece, chromo, show_game = True):
         best_x = 0
@@ -170,11 +177,14 @@ class GA:
                     #k = min(len(chromo), len(features))
                     #print(f'chromo2 {chromo}')
                     pumbness = pumb - bumpiness
-                    move_score -= chromo[0] * move_info[1]
+                    move_score += chromo[0] * move_info[1]
                     move_score += chromo[1] * move_info[2]
                     move_score += chromo[2] * move_info[3]
-                    move_score -= chromo[3] * move_info[4]
-                    move_score -= (chromo[4] * pumbness)
+                    move_score += chromo[3] * move_info[4]
+                    move_score += chromo[4] * move_info[5]
+                    move_score += chromo[5] * move_info[6]
+                    move_score += chromo[6] * move_info[7]
+                    #move_score += chromo[7] * move_info[8]
 
                    # print('------------------')
                     #print(f'move {move_score}')
