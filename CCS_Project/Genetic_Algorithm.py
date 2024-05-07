@@ -8,7 +8,7 @@ class GA:
     new_pop = []
     pop_size = 0
     
-    def __init__(self, pop_size=100, num_gens=5):
+    def __init__(self, pop_size=100, num_gens=10):
         self.pop_size = pop_size
         self.popultion = []
         for i in range(pop_size):
@@ -28,11 +28,7 @@ class GA:
         self.popultion = []
         self.new_pop = []
         self.popultion = new
-    
-    #def init_pop():
-       
-        
-    
+
     def print_pop(self):
         print(self.popultion)
     
@@ -52,6 +48,7 @@ class GA:
         new_gen = []
         sorted_chromo_pop = sorted(self.new_pop , key = lambda x: x[1])
         print(f'sorted pop {len(sorted_chromo_pop)}')
+
         new_gen = sorted_chromo_pop
 
         old_exe = []
@@ -67,10 +64,12 @@ class GA:
         else:
             forlis = (len(exe)//2)
         
+        n = int(self.pop_size / 4)
         for i in range(math.ceil((len(sorted_chromo_pop)*0.3)-3)):
-            lucky = random.choice(old_exe)
+            lucky = random.choice(old_exe[-n:-3])
             exe.append(lucky)
         print(f'exe :{len(exe)}')
+
         for new_i in range(forlis):
             for i2 in range(new_i+1,len(exe)):
                 genes.append(self.cross_over(exe[new_i], exe[i2]))
@@ -79,13 +78,17 @@ class GA:
         genes = self.mutat(genes)
         final_pop = list(exe) + list(genes)
         print(f'wigths before update :{len(final_pop)}')
+
         final_pop = self.replacement(final_pop)
         print(f'wigths after update :{len(final_pop)}')
+
         if(len(final_pop) < len(sorted_chromo_pop)):
             num_of_new = len(sorted_chromo_pop) - len(final_pop)
             for i in range(num_of_new):
-                final_pop.append(random.choice(old_exe[-int(len(sorted_chromo_pop)*0.5):]))
+                final_pop.append(random.choice(old_exe))
+
         print(f'wigths after adding :{len(final_pop)}')
+        
         self.update_Wigths(final_pop)
     
     def mutat(self,pop):
@@ -124,37 +127,53 @@ class GA:
                 # move_info = [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
                 move_info = game.calc_move_info(board,piece,x,r,num_holes_bef,num_blocking_blocks_bef)
                 bumpiness = game.calc_move_bumpiness(board, piece, x, r)
+                delta = game.max_min_height_diff(np.array(board))
 
                 max_height = move_info[1]
                 num_removed_lines = move_info[2]
                 new_holes = move_info[3]
                 new_blocking_blocks = move_info[4]
+                piece_sides = move_info[5]
+                floor_sides = move_info[6]
+                wall_sides = move_info[7]
+                total_blocking_bocks = move_info[8]
                 
                 if(move_info[0]):
                     move_score = 0
-                    move_score -= abs(chromo[0] * max_height)
-                    move_score += (chromo[1] * num_removed_lines)**2 # todo: 10 *
-                    move_score -= abs(chromo[2] * new_holes)
-                    move_score -= chromo[3] * new_blocking_blocks
-                    move_score += (chromo[4] * - bumpiness)**3
+                    move_score += chromo[0] * max_height
+                    
+                    if(num_removed_lines == 1):
+                        move_score += chromo[1] * num_removed_lines * 5
+                    elif (num_removed_lines == 2):
+                        move_score += chromo[1] * num_removed_lines * 10
+                    elif (num_removed_lines == 3):
+                        move_score += chromo[1] * num_removed_lines * 30
+                    elif (num_removed_lines > 3):
+                        move_score += chromo[1] * num_removed_lines * 100
+                    else:
+                        move_score += chromo[1] * 0
 
-                   # print('------------------')
-                    #print(f'move {move_score}')
-                    #print(f'best {best_score}')
+                    move_score += chromo[2] * new_holes
+                    move_score += chromo[3] * new_blocking_blocks
+                    move_score += chromo[4] * bumpiness
+                    move_score += chromo[5] * delta
+                    move_score += chromo[6] * piece_sides
+                    move_score += chromo[7] * floor_sides
+                    move_score += chromo[8] * wall_sides
+                    move_score += chromo[9] * total_blocking_bocks
+
                     if(move_score > best_score):
                         best_bumpiness = bumpiness
                         best_holes_num = new_holes
                         best_score = move_score
                         best_x = x
-                        best_z = r
                         best_y = piece['y']
-        # print(f'Best Bump = {best_bumpiness}')
-        # print(f'Best Num Holes = {best_holes_num}')
+                        best_z = r
+
         if (show_game):
             piece['y'] = best_y
         else:
             piece['y'] = -2
-        #print(f'X :{best_x}')
         piece['x'] = best_x
         piece['rotation'] = best_z
         piece['y'] = 0

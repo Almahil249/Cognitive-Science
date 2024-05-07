@@ -455,7 +455,7 @@ def run_game():
 # ===================================================================================
 
         np_board = np.array(board) # shape = (10, 25)
-        max_height, min_height = max_min_height(np_board)
+        delta = max_min_height_diff(np_board)
         dv_height = deepest_valley_height(np_board)
         total_holes, _ = calc_initial_move_info(board)
 
@@ -489,7 +489,7 @@ def run_game():
 # ALGORITHM FUNCTIONS
 ##############################################################################
 
-def max_min_height(board):
+def max_min_height_diff(board):
     '''
     Input as numpy array
     Retrun tuple (max, min)
@@ -507,7 +507,7 @@ def max_min_height(board):
         if height < min_h:
             min_h = height
     
-    return max_h, min_h
+    return max_h - min_h
 
 def calc_move_bumpiness(board, piece, x, r):
     ''' return the difference between the bumpiness
@@ -867,7 +867,7 @@ def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef
 
     # Check if it's a valid position
     if (not is_valid_position(board, piece)):
-        return [False, 0, 0, 0, 0]
+        return [False, 0, 0, 0, 0, 0, 0, 0, 0]
 
     # Goes down the piece while it's a valid position
     while is_valid_position(board, piece, adj_X=0, adj_Y=1):
@@ -892,6 +892,7 @@ def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef
     total_holes          = 0
     max_height           = 0
 
+    _, total_blocking_bocks = calc_initial_move_info(board)
     for x2 in range(0, BOARDWIDTH):
         b = calc_heuristics(new_board, x2)
         total_holes += b[0]
@@ -901,7 +902,7 @@ def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef
     new_holes           = total_holes - total_holes_bef
     new_blocking_blocks = total_blocking_block - total_blocking_bloks_bef
 
-    return [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
+    return [True, max_height, num_removed_lines, new_holes, new_blocking_blocks, piece_sides, floor_sides, wall_sides, total_blocking_bocks]
 
 def calc_initial_move_info(board):
     total_holes          = 0
