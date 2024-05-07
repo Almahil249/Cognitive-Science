@@ -139,7 +139,7 @@ class GA:
     def cross_over(self,corm1,corm2):
         list1_length = len(corm1)
         cut_point = random.randint(1, list1_length - 1)
-        combined = corm1[:cut_point] + corm2[cut_point:]
+        combined = list(corm1[:cut_point]) + list(corm2[cut_point:])
         combined = np.array(combined)
         print(f'crom1 {combined}')
         return combined

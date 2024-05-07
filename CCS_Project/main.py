@@ -31,7 +31,7 @@ with open(output_file, 'w') as f:
         #for non in G.popultion:
           #  non_score_pop.append(non[0])
         for chromo in G.popultion:
-            game_score = game.run_game_ai(chromo, 1500, 100000)
+            game_score = game.run_game_ai(chromo, 3000, 100000)
             next_gen.append(G.fittens(chromo, game_score[2]))
             currunt_score+=game_score[2]
             if(score < game_score[2]):
