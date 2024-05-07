@@ -2,6 +2,7 @@ import random, time, pygame, sys
 from pygame.locals import *
 import numpy as np
 import Genetic_Algorithm as GG
+import button
 
 ##############################################################################
 # SETTING UP GENERAL CONSTANTS
@@ -14,6 +15,9 @@ WINDOWHEIGHT = 650
 BOXSIZE      = 25
 BOARDWIDTH   = 10
 BOARDHEIGHT  = 25
+BUTTON_HEIGHT = 50
+BUTTON_WIDTH = 150
+TEXT_COLOR = (255, 255, 255)   # White
 BLANK        = '.'
 XMARGIN      = int((WINDOWWIDTH - BOARDWIDTH * BOXSIZE) / 2)
 TOPMARGIN    = WINDOWHEIGHT - (BOARDHEIGHT * BOXSIZE) - 5
@@ -169,7 +173,7 @@ PIECES = {'S': S_SHAPE_TEMPLATE,
           'T': T_SHAPE_TEMPLATE}
 
 # Define if the game is manual or not
-MANUAL_GAME = False
+MANUAL_GAME = True
 
 ##############################################################################
 # MAIN GAME
@@ -183,12 +187,11 @@ def main():
     BASICFONT   = pygame.font.Font('freesansbold.ttf', 18)
     BIGFONT     = pygame.font.Font('freesansbold.ttf', 100)
     pygame.display.set_caption('Tetris AI')
-    #background_color = (135, 206, 235)
-    # run_game()
-    #if(MANUAL_GAME):
-     #   run_game()
-    #else:
-     #   run_game_ai()
+    
+    if(MANUAL_GAME):
+       run_game()
+    else:
+       run_game_ai()
 
 def run_game_ai(chromosome, speed, max_score = 20000):
 
@@ -476,6 +479,7 @@ def run_game():
         draw_board(board)
         draw_status(score, level)
         draw_next_piece(next_piece)
+        button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
 
         if falling_piece != None:
             draw_piece(falling_piece)
@@ -992,5 +996,5 @@ def calc_sides_in_contact(board, piece):
 
         
         
-# if __name__ == '__main__':
-#main()
+if __name__ == '__main__':
+    main()
