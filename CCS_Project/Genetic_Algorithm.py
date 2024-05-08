@@ -55,7 +55,7 @@ class GA:
     def roluate_selection(self,pop):
          selected_chromo = []
          selected_chromo_index = []
-         print(self.pop_size)
+         #print(self.pop_size)
          while(len(selected_chromo) != 10):
             total_fitness = sum(chrom[1] for chrom in pop)
             selection_point = random.uniform(0, total_fitness)
@@ -79,7 +79,7 @@ class GA:
         offspring = []
         offspring = self.cross_over_selecte(chromoes)
         offspring = self.mutat(offspring)
-        print(f'off spring :{len(offspring)}')
+        #print(f'off spring :{len(offspring)}')
         return offspring
     def selection(self,pop,mutat_rate=0.1,crossover_rate=0.7):
        
