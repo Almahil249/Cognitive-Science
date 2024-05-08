@@ -178,7 +178,7 @@ MANUAL_GAME = True
 ##############################################################################
 # MAIN GAME
 ##############################################################################
-def main():
+def main(chromosome, speed,max_score=20000,gen_num=0,index = 0,random_seed = False):
     global FPSCLOCK, DISPLAYSURF, BASICFONT, BIGFONT
     pygame.init()
 
@@ -191,16 +191,24 @@ def main():
     if(MANUAL_GAME):
        run_game()
     else:
+<<<<<<< HEAD
        run_game_ai()
+=======
+       return run_game_ai(chromosome, speed,max_score,gen_num,index)
+>>>>>>> 441aa806660a31e9d2232c2d988838bdcebb48d6
 
-def run_game_ai(chromosome, speed, max_score = 20000):
+def run_game_ai(chromosome, speed, max_score = 20000,gen_num = 0,index = 0,random_seed = False):
 
     FPS = int(speed)
-    main()
-    random.seed(0) 
+    if(random_seed):
+        pass
+    else:
+        random.seed(0) 
     board            = get_blank_board()
     last_fall_time   = time.time()
     score            = 0
+    Generation       = gen_num
+    weight_index     = index   
     ai_score         = 0
     level, fall_freq = calc_level_and_fall_freq(score)
     falling_piece    = get_new_piece()
@@ -281,7 +289,7 @@ def run_game_ai(chromosome, speed, max_score = 20000):
 
         DISPLAYSURF.fill(BGCOLOR)
         draw_board(board)
-        draw_status(score, level)
+        draw_status(score, level,Generation,weight_index)
         draw_next_piece(next_piece)
 
         if falling_piece != None:
@@ -479,7 +487,11 @@ def run_game():
         draw_board(board)
         draw_status(score, level)
         draw_next_piece(next_piece)
+<<<<<<< HEAD
         button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
+=======
+        #button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
+>>>>>>> 441aa806660a31e9d2232c2d988838bdcebb48d6
 
         if falling_piece != None:
             draw_piece(falling_piece)
@@ -811,7 +823,7 @@ def draw_board(board):
             draw_box(x, y, board[x][y])
 
 
-def draw_status(score, level):
+def draw_status(score, level,gen=0,index=0):
     """Draw status"""
 
     # Draw the score text
@@ -819,6 +831,18 @@ def draw_status(score, level):
     score_rect = score_surf.get_rect()
     score_rect.topleft = (WINDOWWIDTH - 150, 80)
     DISPLAYSURF.blit(score_surf, score_rect)
+    ####################
+
+    gen = BASICFONT.render('Genartion: %s' % gen, True, TEXTCOLOR)
+    gen_rect = score_surf.get_rect()
+    gen_rect.topleft = (WINDOWWIDTH - 150, 300)
+    DISPLAYSURF.blit(gen, gen_rect)
+    #############################################
+
+    weight = BASICFONT.render('Weigth_index: %s' % index, True, TEXTCOLOR)
+    weight_rect = score_surf.get_rect()
+    weight_rect.topleft = (WINDOWWIDTH - 150, 330)
+    DISPLAYSURF.blit(weight, weight_rect)
 
     # draw the level text
     levelSurf = BASICFONT.render('Level: %s' % level, True, TEXTCOLOR)
@@ -996,5 +1020,10 @@ def calc_sides_in_contact(board, piece):
 
         
         
+<<<<<<< HEAD
 if __name__ == '__main__':
     main()
+=======
+#if __name__ == '__main__':
+ #   main()
+>>>>>>> 441aa806660a31e9d2232c2d988838bdcebb48d6

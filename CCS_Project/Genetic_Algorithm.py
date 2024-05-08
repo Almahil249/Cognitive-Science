@@ -19,7 +19,7 @@ class GA:
             # gen4 = np.random.uniform(-10, -0.99)    # total_holes
             # gen5 = np.random.uniform(-10, -0.99)    # bumpiness
             # chromo = [gen1, gen2, gen3, gen4, gen5]
-            chromo = np.random.uniform(-1, 1, size=num_gens)
+            chromo = np.random.uniform(-10, 10, size=num_gens)
             # Ensure randomness
             #print('lol')
             # chromo = [-0.27521385, -0.19055338, -0.54777522, -0.16039307, -0.38306999,  0.35059687]
@@ -55,7 +55,7 @@ class GA:
     def roluate_selection(self,pop):
          selected_chromo = []
          selected_chromo_index = []
-         print(self.pop_size)
+         #print(self.pop_size)
          while(len(selected_chromo) != 10):
             total_fitness = sum(chrom[1] for chrom in pop)
             selection_point = random.uniform(0, total_fitness)
@@ -79,9 +79,9 @@ class GA:
         offspring = []
         offspring = self.cross_over_selecte(chromoes)
         offspring = self.mutat(offspring)
-        print(f'off spring :{len(offspring)}')
+        #print(f'off spring :{len(offspring)}')
         return offspring
-    def selection(self,pop):
+    def selection(self,pop,mutat_rate=0.1,crossover_rate=0.7):
        
         old_exe = pop
         #exe = []
@@ -91,39 +91,39 @@ class GA:
         #    lucky = random.choice(old_exe)
          #   exe.append(lucky)
         #print(f'exe :{len(exe)}')
-        print(f'wigths before cross over :{old_exe}')
-        genes = self.cross_over_selecte(old_exe)
+        #print(f'wigths before cross over :{old_exe}')
+        genes = self.cross_over_selecte(old_exe,crossover_rate)
         
-        print(len(genes))
-        genes = self.mutat(genes)
-        print(f'wigths after mutation :{len(genes)}')
+        #print(len(genes))
+        genes = self.mutat(genes,mutat_rate)
+        #print(f'wigths after mutation :{len(genes)}')
         final_pop = list(old_exe) + list(genes)
         
         #final_pop = self.replacement(final_pop)
-        print(f'wigths after update :{len(final_pop)}')
+        #print(f'wigths after update :{len(final_pop)}')
        
         self.update_Wigths(final_pop)
     
-    def mutat(self,pop):
+    def mutat(self,pop,mutat_rate):
         new_pop = []
-        print(f'mutat {len(pop)}')
+        #print(f'mutat {len(pop)}')
         for chromo in pop:
             rand = np.random.rand(len(chromo))
             #print(rand)
-            indices = np.where(rand < 0.1)[0]
+            indices = np.where(rand < mutat_rate)[0]
             for i in indices:
                 chromo[i] = random.uniform(-1, 1)
             # print(f'mutat:{len(chromo)}')
             new_pop.append(chromo)
         return new_pop
-    def cross_over_selecte(self,pop):
+    def cross_over_selecte(self,pop,cross_over_rate):
         rand = np.random.rand(len(pop))
-        indices = np.where(rand < 0.7)[0]
+        indices = np.where(rand < cross_over_rate)[0]
         cross_selected = []
         for i in indices:
             cross_selected.append(pop[i])
         forlis = 0
-        print(f'corss len{len(cross_selected)}')
+        #print(f'corss len{len(cross_selected)}')
         if(len(cross_selected)%2 != 0):
             forlis = (len(cross_selected)//2)+1
         else:
@@ -133,7 +133,7 @@ class GA:
         for new_i in range(forlis):
             for i2 in range(new_i+1,len(cross_selected)):
                 genes.append(self.cross_over(cross_selected[new_i], cross_selected[i2]))
-        print(f'gens len {len(genes)}')
+        #print(f'gens len {len(genes)}')
         return genes
 
     def cross_over(self,corm1,corm2):
@@ -141,9 +141,9 @@ class GA:
         cut_point = random.randint(1, list1_length - 1)
         combined = list(corm1[:cut_point]) + list(corm2[cut_point:])
         combined = np.array(combined)
-        print(f'crom1 {combined}')
+        #print(f'crom1 {combined}')
         return combined
-    def calc_best_move(self, board, piece, chromo, show_game = True):
+    def calc_best_move(self, board, piece, chromo):
         best_x = 0
         best_y = 0
         best_z = 0
@@ -194,10 +194,7 @@ class GA:
                         best_x = x
                         best_z = r
                         best_y = piece['y']
-        if (show_game):
-            piece['y'] = best_y
-        else:
-            piece['y'] = -2
+        piece['y'] = best_y
         #print(f'X :{best_x}')
         piece['x'] = best_x
         piece['rotation'] = best_z
