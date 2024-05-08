@@ -2,6 +2,8 @@ import random, time, pygame, sys
 from pygame.locals import *
 import numpy as np
 import Genetic_Algorithm as GG
+import button
+
 ##############################################################################
 # SETTING UP GENERAL CONSTANTS
 ##############################################################################
@@ -9,10 +11,13 @@ import Genetic_Algorithm as GG
 # Board config
 FPS          = 25
 WINDOWWIDTH  = 650
-WINDOWHEIGHT = 690
+WINDOWHEIGHT = 650
 BOXSIZE      = 25
 BOARDWIDTH   = 10
 BOARDHEIGHT  = 25
+BUTTON_HEIGHT = 50
+BUTTON_WIDTH = 150
+TEXT_COLOR = (255, 255, 255)   # White
 BLANK        = '.'
 XMARGIN      = int((WINDOWWIDTH - BOARDWIDTH * BOXSIZE) / 2)
 TOPMARGIN    = WINDOWHEIGHT - (BOARDHEIGHT * BOXSIZE) - 5
@@ -42,7 +47,7 @@ YELLOW      = (155, 155,   0)
 LIGHTYELLOW = (175, 175,  20)
 
 BORDERCOLOR     = BLUE
-BGCOLOR         = BLACK
+BGCOLOR         = (0, 0, 0)
 TEXTCOLOR       = WHITE
 TEXTSHADOWCOLOR = GRAY
 COLORS          = (     BLUE,      GREEN,      RED,      YELLOW)
@@ -173,7 +178,7 @@ MANUAL_GAME = False
 ##############################################################################
 # MAIN GAME
 ##############################################################################
-def main():
+def main(chromosome, speed,max_score=20000,gen_num=0,index = 0,random_seed = False):
     global FPSCLOCK, DISPLAYSURF, BASICFONT, BIGFONT
     pygame.init()
 
@@ -183,14 +188,24 @@ def main():
     BIGFONT     = pygame.font.Font('freesansbold.ttf', 100)
     pygame.display.set_caption('Tetris AI')
     
-def run_game_ai(chromosome, speed, max_score = 20000):
+    if(MANUAL_GAME):
+       run_game()
+    else:
+       return run_game_ai(chromosome, speed,max_score,gen_num,index)
+
+def run_game_ai(chromosome, speed, max_score = 20000,gen_num = 0,index = 0,random_seed = False):
 
     FPS = int(speed)
-    main()
-
+    if(random_seed):
+        pass
+    else:
+        random.seed(0) 
     board            = get_blank_board()
     last_fall_time   = time.time()
     score            = 0
+    Generation       = gen_num
+    weight_index     = index   
+    ai_score         = 0
     level, fall_freq = calc_level_and_fall_freq(score)
     falling_piece    = get_new_piece()
     next_piece       = get_new_piece()
@@ -198,7 +213,8 @@ def run_game_ai(chromosome, speed, max_score = 20000):
     G = GG.GA()
     
     # Calculate best move
-    G.calc_best_move(board, falling_piece, chromosome)
+    _, _, _, best_score = G.calc_best_move(board, falling_piece, chromosome)
+    ai_score += best_score
 
     num_used_pieces = 0
     removed_lines   = [0,0,0,0] # Combos
@@ -220,8 +236,11 @@ def run_game_ai(chromosome, speed, max_score = 20000):
             # No falling piece in play, so start a new piece at the top
             falling_piece = next_piece
             next_piece    = get_new_piece()
+
             # Decide the best move based on your weights
-            G.calc_best_move(board, falling_piece, chromosome)
+            _, _, _, best_score =  G.calc_best_move(board, falling_piece, chromosome)
+            ai_score += best_score
+            # print(G.fittness(best_score))
 
             num_used_pieces +=1
             score           += 1
@@ -266,7 +285,7 @@ def run_game_ai(chromosome, speed, max_score = 20000):
 
         DISPLAYSURF.fill(BGCOLOR)
         draw_board(board)
-        draw_status(score, level)
+        draw_status(score, level,Generation,weight_index)
         draw_next_piece(next_piece)
 
         if falling_piece != None:
@@ -282,7 +301,7 @@ def run_game_ai(chromosome, speed, max_score = 20000):
             win   = True
 
     # Save the game state
-    game_state = [num_used_pieces, removed_lines, score, win, chromosome]
+    game_state = [num_used_pieces, removed_lines, score, win, chromosome, ai_score]
 
     return game_state
 
@@ -299,9 +318,10 @@ def run_game():
     level, fall_freq   = calc_level_and_fall_freq(score)
     falling_piece      = get_new_piece()
     next_piece         = get_new_piece()
-
+    
     while True:
         # Game Loop
+        
         if (falling_piece == None):
             # No falling piece in play, so start a new piece at the top
             falling_piece = next_piece
@@ -427,6 +447,7 @@ def run_game():
                     score += 300
                 elif (num_removed_lines == 4):
                     score += 1200
+                print(f'num_removed_lines: {num_removed_lines}')
 
                 level, fall_freq = calc_level_and_fall_freq(score)
                 falling_piece    = None
@@ -440,13 +461,19 @@ def run_game():
 # FUNCTIONS TESTING
 # ===================================================================================
 
-        if score > 9:
-            np_board = np.array(board) # shape = (10, 25)
-            for i in range(25):
-                print(np_board[:, i])
-            print('Max Min Height = ',max_min_height(np_board))
-            print('Deepest = ', deepest_valley_height(np_board))
-            pygame.quit()
+        np_board = np.array(board) # shape = (10, 25)
+        max_height, min_height = max_min_height(np_board)
+        dv_height = deepest_valley_height(np_board)
+        total_holes, _ = calc_initial_move_info(board)
+
+    ###################### FEATURES ################################
+        #print('-------------------------------------')
+        #print(f'total_holes: {total_holes}')
+        #print(f'max_height: {max_height}')
+        #print(f'min_height: {min_height}')
+        #print(f'dv_height: {dv_height}')
+        #print(f'bumpiness {calc_bumpiness(np_board)}')
+    ################################################################                
 
 # ===================================================================================
         
@@ -456,6 +483,7 @@ def run_game():
         draw_board(board)
         draw_status(score, level)
         draw_next_piece(next_piece)
+        #button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
 
         if falling_piece != None:
             draw_piece(falling_piece)
@@ -471,6 +499,7 @@ def run_game():
 
 def max_min_height(board):
     '''
+    Input as numpy array
     Retrun tuple (max, min)
     '''
     max_h = 0
@@ -488,10 +517,54 @@ def max_min_height(board):
     
     return max_h, min_h
 
+def calc_move_bumpiness(board, piece, x, r):
+    ''' return the difference between the bumpiness
+        after - before the move
+    '''
+
+    piece['rotation'] = r
+    piece['y']        = 0
+    piece['x']        = x
+
+    # Check if it's a valid position
+    if (not is_valid_position(board, piece)):
+        # to lower the score down if the move is not valid
+        return 9999
+
+    # Goes down the piece while it's a valid position
+    while is_valid_position(board, piece, adj_X=0, adj_Y=1):
+        piece['y']+=1
+
+    # Create a hypothetical board
+    new_board = get_blank_board()
+    for x2 in range(BOARDWIDTH):
+        for y in range(BOARDHEIGHT):
+            new_board[x2][y] = board[x2][y]
+
+    # Add the piece to the new_board
+    add_to_board(new_board, piece)
+
+    bumpiness = board_bumpiness(np.array(board))
+    new_bumpiness = board_bumpiness(np.array(new_board))
+    
+    return new_bumpiness - bumpiness 
+
+def board_bumpiness(board):
+    height_list = []
+    for col in range(board.shape[0]):  # Iterate over columns
+        height = 0
+        for row in range(board.shape[1] - 1, -1, -1):  # Iterate from bottom to top [24 -> 0]
+            if board[col][row] != '.':
+                height = 25 - row
+        height_list.append(height)
+
+    return np.var([height_list])
+
 
 # this function need to be checked again 
 def deepest_valley_height(board):
     '''
+    Input as numpy array
     return the height of the deepest valley from the bottom (not how deep from the top)
     '''
     min_valley_height = 99
@@ -599,7 +672,7 @@ def calc_level_and_fall_freq(score):
 
 def get_new_piece():
     """Return a random new piece in a random rotation and color"""
-
+    #random.seed(0)
     shape     = random.choice(list(PIECES.keys()))
     new_piece = {'shape': shape,
                 'rotation': random.randint(0, len(PIECES[shape]) - 1),
@@ -742,7 +815,7 @@ def draw_board(board):
             draw_box(x, y, board[x][y])
 
 
-def draw_status(score, level):
+def draw_status(score, level,gen=0,index=0):
     """Draw status"""
 
     # Draw the score text
@@ -750,6 +823,18 @@ def draw_status(score, level):
     score_rect = score_surf.get_rect()
     score_rect.topleft = (WINDOWWIDTH - 150, 80)
     DISPLAYSURF.blit(score_surf, score_rect)
+    ####################
+
+    gen = BASICFONT.render('Genartion: %s' % gen, True, TEXTCOLOR)
+    gen_rect = score_surf.get_rect()
+    gen_rect.topleft = (WINDOWWIDTH - 150, 300)
+    DISPLAYSURF.blit(gen, gen_rect)
+    #############################################
+
+    weight = BASICFONT.render('Weigth_index: %s' % index, True, TEXTCOLOR)
+    weight_rect = score_surf.get_rect()
+    weight_rect.topleft = (WINDOWWIDTH - 150, 330)
+    DISPLAYSURF.blit(weight, weight_rect)
 
     # draw the level text
     levelSurf = BASICFONT.render('Level: %s' % level, True, TEXTCOLOR)
@@ -794,6 +879,7 @@ def draw_next_piece(piece):
 
 def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef):
     """Calculate informations based on the current play"""
+    _,blocks = calc_initial_move_info(board)
 
     piece['rotation'] = r
     piece['y']        = 0
@@ -801,7 +887,7 @@ def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef
 
     # Check if it's a valid position
     if (not is_valid_position(board, piece)):
-        return [False]
+        return [False, 0, 0, 0, 0]
 
     # Goes down the piece while it's a valid position
     while is_valid_position(board, piece, adj_X=0, adj_Y=1):
@@ -835,7 +921,7 @@ def calc_move_info(board, piece, x, r, total_holes_bef, total_blocking_bloks_bef
     new_holes           = total_holes - total_holes_bef
     new_blocking_blocks = total_blocking_block - total_blocking_bloks_bef
 
-    return [True, max_height, num_removed_lines, new_holes, new_blocking_blocks]
+    return [True, max_height, num_removed_lines, new_holes, new_blocking_blocks,piece_sides, floor_sides, wall_sides,blocks]
 
 def calc_initial_move_info(board):
     total_holes          = 0
@@ -924,3 +1010,7 @@ def calc_sides_in_contact(board, piece):
     return  piece_sides, floor_sides, wall_sides
 
 
+        
+        
+#if __name__ == '__main__':
+ #   main()
