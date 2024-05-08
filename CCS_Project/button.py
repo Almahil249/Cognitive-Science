@@ -25,7 +25,6 @@ def draw_button(screen, x, y, width, height, button_color, hover_color, text_col
     font = pygame.font.Font(None, 36)
     # Create button rectangle
     button_rect = pygame.Rect(x, y, width, height)
-
     # Get mouse position
     mouse_pos = pygame.mouse.get_pos()
 
@@ -34,8 +33,10 @@ def draw_button(screen, x, y, width, height, button_color, hover_color, text_col
         color = hover_color
     else:
         color = button_color
-
-    # Draw button rectangle
+    if button_rect.collidepoint(mouse_pos):
+        color = hover_color
+    else:
+        color = button_color
     pygame.draw.rect(screen, color, button_rect)
 
     # Draw text on button
@@ -44,6 +45,11 @@ def draw_button(screen, x, y, width, height, button_color, hover_color, text_col
     screen.blit(button_text, text_rect)
 
     return button_rect  # Return button rectangle for click detection
+
+
+def button_clicked(event,button_rect):
+    # Get the current mouse position and check for mouse button click events
+    return event.type == MOUSEBUTTONDOWN and event.button == 1 and button_rect.collidepoint(pygame.mouse.get_pos())
 
 # Main game loop
 # while True:
