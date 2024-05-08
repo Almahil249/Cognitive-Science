@@ -173,12 +173,12 @@ PIECES = {'S': S_SHAPE_TEMPLATE,
           'T': T_SHAPE_TEMPLATE}
 
 # Define if the game is manual or not
-MANUAL_GAME = True
+MANUAL_GAME = False
 
 ##############################################################################
 # MAIN GAME
 ##############################################################################
-def main():
+def main(chromosome, speed,max_score=20000):
     global FPSCLOCK, DISPLAYSURF, BASICFONT, BIGFONT
     pygame.init()
 
@@ -191,12 +191,11 @@ def main():
     if(MANUAL_GAME):
        run_game()
     else:
-       run_game_ai()
+       return run_game_ai(chromosome, speed,max_score)
 
 def run_game_ai(chromosome, speed, max_score = 20000):
 
     FPS = int(speed)
-    main()
     random.seed(0) 
     board            = get_blank_board()
     last_fall_time   = time.time()
@@ -479,7 +478,7 @@ def run_game():
         draw_board(board)
         draw_status(score, level)
         draw_next_piece(next_piece)
-        button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
+        #button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
 
         if falling_piece != None:
             draw_piece(falling_piece)
@@ -996,5 +995,5 @@ def calc_sides_in_contact(board, piece):
 
         
         
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+ #   main()
