@@ -173,7 +173,7 @@ PIECES = {'S': S_SHAPE_TEMPLATE,
           'T': T_SHAPE_TEMPLATE}
 
 # Define if the game is manual or not
-MANUAL_GAME = True
+MANUAL_GAME = False
 
 ##############################################################################
 # MAIN GAME
@@ -191,11 +191,7 @@ def main(chromosome, speed,max_score=20000,gen_num=0,index = 0,random_seed = Fal
     if(MANUAL_GAME):
        run_game()
     else:
-<<<<<<< HEAD
-       run_game_ai()
-=======
        return run_game_ai(chromosome, speed,max_score,gen_num,index)
->>>>>>> 441aa806660a31e9d2232c2d988838bdcebb48d6
 
 def run_game_ai(chromosome, speed, max_score = 20000,gen_num = 0,index = 0,random_seed = False):
 
@@ -289,7 +285,7 @@ def run_game_ai(chromosome, speed, max_score = 20000,gen_num = 0,index = 0,rando
 
         DISPLAYSURF.fill(BGCOLOR)
         draw_board(board)
-        draw_status(score, level,Generation,weight_index)
+        draw_status(score, level, Generation,weight_index)
         draw_next_piece(next_piece)
 
         if falling_piece != None:
@@ -487,11 +483,7 @@ def run_game():
         draw_board(board)
         draw_status(score, level)
         draw_next_piece(next_piece)
-<<<<<<< HEAD
-        button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
-=======
         #button.draw_button(DISPLAYSURF, 480, (WINDOWHEIGHT - BUTTON_HEIGHT) / 2, BUTTON_WIDTH, BUTTON_HEIGHT, LIGHTBLUE, BLUE, WHITE)
->>>>>>> 441aa806660a31e9d2232c2d988838bdcebb48d6
 
         if falling_piece != None:
             draw_piece(falling_piece)
@@ -823,7 +815,7 @@ def draw_board(board):
             draw_box(x, y, board[x][y])
 
 
-def draw_status(score, level,gen=0,index=0):
+def draw_status(score, level, gen=0, index=0):
     """Draw status"""
 
     # Draw the score text
@@ -835,13 +827,13 @@ def draw_status(score, level,gen=0,index=0):
 
     gen = BASICFONT.render('Genartion: %s' % gen, True, TEXTCOLOR)
     gen_rect = score_surf.get_rect()
-    gen_rect.topleft = (WINDOWWIDTH - 150, 300)
+    gen_rect.topleft = (WINDOWWIDTH - 170, 300)
     DISPLAYSURF.blit(gen, gen_rect)
     #############################################
 
     weight = BASICFONT.render('Weigth_index: %s' % index, True, TEXTCOLOR)
     weight_rect = score_surf.get_rect()
-    weight_rect.topleft = (WINDOWWIDTH - 150, 330)
+    weight_rect.topleft = (WINDOWWIDTH - 170, 330)
     DISPLAYSURF.blit(weight, weight_rect)
 
     # draw the level text
@@ -1020,10 +1012,5 @@ def calc_sides_in_contact(board, piece):
 
         
         
-<<<<<<< HEAD
-if __name__ == '__main__':
-    main()
-=======
 #if __name__ == '__main__':
  #   main()
->>>>>>> 441aa806660a31e9d2232c2d988838bdcebb48d6
