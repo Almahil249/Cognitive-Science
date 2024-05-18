@@ -713,11 +713,7 @@ def is_valid_position(board, piece, adj_X=0, adj_Y=0):
     sum = 0
     for x in range(TEMPLATEWIDTH):
         for y in range(TEMPLATEHEIGHT):
-            #print(y)
             is_above_board = y + piece['y'] + adj_Y < 0
-            
-            #sum += len(PIECES[piece['shape']][piece['rotation']][y][x])
-           # print(PIECES[piece['shape']][piece['rotation']][y][x])
             if is_above_board or PIECES[piece['shape']][piece['rotation']][y][x] == BLANK:
                 continue
 
