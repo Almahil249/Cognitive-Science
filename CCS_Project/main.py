@@ -48,7 +48,7 @@ def train(pop_size=10, iteration=301, mutat_rate=0.3, crossover_rate=0.7, speed=
                 snd_best_weight = []
                 next_gen = []
                 weight_idnex = 0
-                for chromo in G.popultion:
+                for chromo in G.population:
                     game_score = game.main(chromo, speed, max_score, i, weight_idnex)
                     next_gen.append(G.fittens(chromo, game_score))
                     currunt_score += game_score
@@ -59,8 +59,8 @@ def train(pop_size=10, iteration=301, mutat_rate=0.3, crossover_rate=0.7, speed=
                         snd_best_gen_score = game_score
                         snd_best_weight = chromo
                     weight_idnex += 1
-                avg_score = currunt_score // len(G.popultion)
-                selected_chromo, selected_chromo_index = G.roluate_selection(next_gen)
+                avg_score = currunt_score // len(G.population)
+                selected_chromo, selected_chromo_index = G.roulette_selection(next_gen)
                 G.selection(selected_chromo, mutat_rate, crossover_rate)
                 f.write(f'=== Gen {i} Best Solution ===\n')
                 f.write(f'Game played {weight_idnex}\n')
